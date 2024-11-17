@@ -1,0 +1,31 @@
+<form method="POST" action="/search">
+    <input type="text" name="query" placeholder="Search for a food item">
+    <input type="submit" value="Search">
+</form>
+
+<ul>
+    {% for item in results %}
+        <li>
+            {{ item.description }}
+            <form action="/add_to_planner" method="POST" style="display:inline;">
+                <input type="hidden" name="food_name" value="{{ item.description }}">
+                <input type="hidden" name="calories" value="{{ item.foodNutrients[0].value }}">
+                <input type="hidden" name="sugars" value="{{ item.foodNutrients[1].value }}">
+            
+                <label for="day">Select day:</label>
+                <select name="day">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+            
+                <button type="submit">Add to Planner</button>
+            </form>
+            
+        </li>
+    {% endfor %}
+</ul>

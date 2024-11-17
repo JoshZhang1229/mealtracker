@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head><title>Meal Planner</title></head>
+<body>
+
+    <h1>Your Weekly Meal Planner</h1>
+    <p>Note: The average person wants 2000 calories and 100 g of sugar a day.</p>
+    
+    {% set days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
+    
+    {% for day in days_of_week %}
+        <h2>{{ day }}</h2>
+    
+        {% if day in planner and planner[day] %}
+            <ul>
+                {% for item in planner[day] %}
+                    <li>
+                        {{ item.name }} - {{ item.calories }} calories, {{ item.sugars }} g sugars
+                        <form action="/delete_item" method="POST" style="display:inline;">
+                            <input type="hidden" name="day" value="{{ day }}">
+                            <input type="hidden" name="item_name" value="{{ item.name }}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+            <p><strong>Total for {{ day }}:</strong> {{ totals[day].calories }} calories, {{ totals[day].sugars }} g sugars</p>
+        {% else %}
+            <p>No items planned</p>
+        {% endif %}
+    {% endfor %}
+    
+    <button onclick="window.print()">Print this planner</button>
+    <a href="/search">Add more items</a>
+    <a href="/reset_planner">Reset Planner</a>    
+    
+</body>
+</html>
